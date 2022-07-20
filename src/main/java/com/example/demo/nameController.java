@@ -2,6 +2,7 @@ package com.example.demo;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +37,29 @@ public class nameController {
         nameInterface.save(nE);
     }
 
-    @PutMapping
+    @GetMapping (value = "/{id}")
+    public ResponseEntity <nameEntity> buscarPersonId (@PathVariable("id") Integer id){
+        nameEntity personaEncontrada = nameInterface.findById(id).orElseThrow();
+        return ResponseEntity.ok(personaEncontrada);
+    }
+
+
+    @PutMapping 
     public void modificar (@RequestBody nameEntity nE){
         nameInterface.save(nE);
+    }
+
+    @PutMapping (value = "/{id}")
+    public ResponseEntity <nameEntity> modificarPersona (@PathVariable("id") Integer id, @RequestBody nameEntity nE){
+        nameEntity personaCambiar = nameInterface.findById(id).orElseThrow();
+
+        personaCambiar.setNamePersona(nE.getNamePersona());
+        personaCambiar.setCorreoPersona(nE.getCorreoPersona());
+        personaCambiar.setEdad(nE.getEdad());
+
+        nameEntity personaActualizado = nameInterface.save(personaCambiar);
+
+        return ResponseEntity.ok(personaActualizado);
     }
 
     @DeleteMapping (value = "/{id}")

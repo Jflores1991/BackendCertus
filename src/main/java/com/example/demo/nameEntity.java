@@ -1,16 +1,14 @@
 package com.example.demo;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
 @Table (name="persona", catalog = "appcertus", schema = "")
 public class nameEntity {
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "idpersona")
     private Integer idPersona;
 
